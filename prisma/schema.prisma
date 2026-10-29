@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// A single money entry: expense, saving, income or pocket money
+model Transaction {
+  id        String   @id @default(cuid())
+  type      String // EXPENSE | SAVING | INCOME | POCKET_MONEY
+  amount    Float
+  category  String
+  note      String?
+  date      String // yyyy-MM-dd
+  createdAt DateTime @default(now())
+}
+
+// Singleton settings row (id = "default")
+model Settings {
+  id            String @id @default("default")
+  monthlyBudget Float  @default(0)
+  currency      String @default("$")
+}
